@@ -1,0 +1,142 @@
+##############################################################################
+#  ANALISE DE NAO-EQUIVALENCIA FORTE  -  P2 vs P3
+##############################################################################
+
+HIPOTESE: P2 (iterativo crescente, i=1..N) e P3 (iterativo decrescente,
+          i=N..1) computam a MESMA funcao (ambos retornam N!), mas
+          NAO sao fortemente equivalentes, porque as sequencias de
+          configuracoes geradas pela MT diferem:
+            - em P2 a 1a multiplicacao e' RES <- RES * 1;
+            - em P3 a 1a multiplicacao e' RES <- RES * N.
+          A ordem das operacoes realizadas e', portanto, diferente.
+
+METODO:   gera-se os dois tracos para a mesma entrada N e identifica-se
+          o PRIMEIRO passo em que as configuracoes divergem.
+
+------------------------------------------------------------------------------
+ Entrada N = 3
+   funcao computada P2 = 6   funcao computada P3 = 6   (iguais? True)
+   PRIMEIRA DIVERGENCIA no passo 2:
+     P2: {'N': 3, 'I': 1, 'RES': 1}   acao: I <- 1   [I=1]
+     P3: {'N': 3, 'I': 3, 'RES': 1}   acao: I <- N   [I=3]
+------------------------------------------------------------------------------
+ Entrada N = 4
+   funcao computada P2 = 24   funcao computada P3 = 24   (iguais? True)
+   PRIMEIRA DIVERGENCIA no passo 2:
+     P2: {'N': 4, 'I': 1, 'RES': 1}   acao: I <- 1   [I=1]
+     P3: {'N': 4, 'I': 4, 'RES': 1}   acao: I <- N   [I=4]
+------------------------------------------------------------------------------
+ Entrada N = 5
+   funcao computada P2 = 120   funcao computada P3 = 120   (iguais? True)
+   PRIMEIRA DIVERGENCIA no passo 2:
+     P2: {'N': 5, 'I': 1, 'RES': 1}   acao: I <- 1   [I=1]
+     P3: {'N': 5, 'I': 5, 'RES': 1}   acao: I <- N   [I=5]
+
+==============================================================================
+ CONCLUSAO: P2 e P3 NAO sao fortemente equivalentes.
+ Embora computem a mesma funcao (n!), os tracos gerados
+ pela MT diferem a partir do passo em que a variavel I
+ e' inicializada de forma distinta (I<-1 em P2, I<-N em P3).
+ Este e' um exemplo classico de que equivalencia funcional
+ NAO IMPLICA equivalencia forte.
+==============================================================================
+
+## DEMONSTRACAO VISUAL - TRACOS LADO A LADO (N = 4)
+
+>>> P2 (iterativo crescente)
+==============================================================================
+ TRACO DO PROGRAMA: P2 - Iterativo crescente (while, i:1->n)
+ Entrada: {'N': 4}
+==============================================================================
+
+ Fita de configuracoes  <rotulo, estado>  |-  proxima
+------------------------------------------------------------------------------
+        <    i1, [N=4]>
+   |-  <    i2, [N=4, RES=1]>
+         acao: RES <- 1   [RES=1]
+   |-  <    i3, [N=4, RES=1, I=1]>
+         acao: I <- 1   [I=1]
+   |-  <    i4, [N=4, RES=1, I=1]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=1, I=1]>
+         acao: RES <- RES * I   [RES=1]
+   |-  <    i3, [N=4, RES=1, I=2]>
+         acao: I <- I + 1   [I=2]
+   |-  <    i4, [N=4, RES=1, I=2]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=2, I=2]>
+         acao: RES <- RES * I   [RES=2]
+   |-  <    i3, [N=4, RES=2, I=3]>
+         acao: I <- I + 1   [I=3]
+   |-  <    i4, [N=4, RES=2, I=3]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=6, I=3]>
+         acao: RES <- RES * I   [RES=6]
+   |-  <    i3, [N=4, RES=6, I=4]>
+         acao: I <- I + 1   [I=4]
+   |-  <    i4, [N=4, RES=6, I=4]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=24, I=4]>
+         acao: RES <- RES * I   [RES=24]
+   |-  <    i3, [N=4, RES=24, I=5]>
+         acao: I <- I + 1   [I=5]
+   |-  <    i7, [N=4, RES=24, I=5]>
+         acao: teste: I > N  ->  V
+   |-  <    i7, [N=4, RES=24, I=5]>
+         acao: pare
+------------------------------------------------------------------------------
+ Resultado final: 24
+ Total de passos : 16
+==============================================================================
+
+>>> P3 (iterativo decrescente)
+==============================================================================
+ TRACO DO PROGRAMA: P3 - Iterativo decrescente (while, i:n->1)
+ Entrada: {'N': 4}
+==============================================================================
+
+ Fita de configuracoes  <rotulo, estado>  |-  proxima
+------------------------------------------------------------------------------
+        <    d1, [N=4]>
+   |-  <    d2, [N=4, RES=1]>
+         acao: RES <- 1   [RES=1]
+   |-  <    d3, [N=4, RES=1, I=4]>
+         acao: I <- N   [I=4]
+   |-  <    d4, [N=4, RES=1, I=4]>
+         acao: teste: I < 1  ->  F
+   |-  <    d5, [N=4, RES=4, I=4]>
+         acao: RES <- RES * I   [RES=4]
+   |-  <    d3, [N=4, RES=4, I=3]>
+         acao: I <- I - 1   [I=3]
+   |-  <    d4, [N=4, RES=4, I=3]>
+         acao: teste: I < 1  ->  F
+   |-  <    d5, [N=4, RES=12, I=3]>
+         acao: RES <- RES * I   [RES=12]
+   |-  <    d3, [N=4, RES=12, I=2]>
+         acao: I <- I - 1   [I=2]
+   |-  <    d4, [N=4, RES=12, I=2]>
+         acao: teste: I < 1  ->  F
+   |-  <    d5, [N=4, RES=24, I=2]>
+         acao: RES <- RES * I   [RES=24]
+   |-  <    d3, [N=4, RES=24, I=1]>
+         acao: I <- I - 1   [I=1]
+   |-  <    d4, [N=4, RES=24, I=1]>
+         acao: teste: I < 1  ->  F
+   |-  <    d5, [N=4, RES=24, I=1]>
+         acao: RES <- RES * I   [RES=24]
+   |-  <    d3, [N=4, RES=24, I=0]>
+         acao: I <- I - 1   [I=0]
+   |-  <    d7, [N=4, RES=24, I=0]>
+         acao: teste: I < 1  ->  V
+   |-  <    d7, [N=4, RES=24, I=0]>
+         acao: pare
+------------------------------------------------------------------------------
+ Resultado final: 24
+ Total de passos : 16
+==============================================================================
+
+ Repare, em particular, no estado da variavel I ao longo
+ da fita: em P2 ela assume a sequencia 1,2,3,4,5; em P3
+ assume 4,3,2,1,0. As multiplicacoes que poduzem RES sao,
+ respectivamente: (1,2,3,4)  vs  (4,3,2,1). Mesmo produto
+ (24), ordem distinta -> nao sao fortemente equivalentes.

@@ -1,0 +1,141 @@
+##############################################################################
+#  TRACO DO PROGRAMA RECURSIVO (via pilha)
+##############################################################################
+
+O programa recursivo em C (src/recursivo.c) usa a pilha de ativacao
+implicita da linguagem. Para analisa-lo pela MT, ele foi NORMALIZADO
+em um programa monolitico com pilha EXPLICITA. Observe, no traco:
+  - Fase de DESCIDA: empilhamento de N, N-1, ..., 1 (rotulos r3-r6).
+  - Fase de SUBIDA : desempilhamento com multiplicacoes (rotulos r7-r9).
+A variavel TAM_PILHA torna visivel o crescimento e a contracao da
+pilha de ativacao recursiva.
+
+==============================================================================
+ TRACO DO PROGRAMA: P4 - Recursivo normalizado (via pilha)
+ Entrada: {'N': 3}
+==============================================================================
+
+ Fita de configuracoes  <rotulo, estado>  |-  proxima
+------------------------------------------------------------------------------
+        <    r1, [N=3]>
+   |-  <    r2, [N=3, RES=1]>
+         acao: RES <- 1   [RES=1]
+   |-  <    r3, [N=3, RES=1, TOPO=3]>
+         acao: TOPO <- N   [TOPO=3]
+   |-  <    r4, [N=3, RES=1, TOPO=3]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=3, RES=1, TOPO=3, TAM_PILHA=1]>
+         acao: empilha(TOPO)   [TAM_PILHA=1]
+   |-  <    r3, [N=3, RES=1, TOPO=2, TAM_PILHA=1]>
+         acao: TOPO <- TOPO - 1   [TOPO=2]
+   |-  <    r4, [N=3, RES=1, TOPO=2, TAM_PILHA=1]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=3, RES=1, TOPO=2, TAM_PILHA=2]>
+         acao: empilha(TOPO)   [TAM_PILHA=2]
+   |-  <    r3, [N=3, RES=1, TOPO=1, TAM_PILHA=2]>
+         acao: TOPO <- TOPO - 1   [TOPO=1]
+   |-  <    r4, [N=3, RES=1, TOPO=1, TAM_PILHA=2]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=3, RES=1, TOPO=1, TAM_PILHA=3]>
+         acao: empilha(TOPO)   [TAM_PILHA=3]
+   |-  <    r3, [N=3, RES=1, TOPO=0, TAM_PILHA=3]>
+         acao: TOPO <- TOPO - 1   [TOPO=0]
+   |-  <    r7, [N=3, RES=1, TOPO=0, TAM_PILHA=3]>
+         acao: teste: TOPO < 1  ->  V
+   |-  <    r8, [N=3, RES=1, TOPO=0, TAM_PILHA=3]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=3, RES=1, TOPO=0, TAM_PILHA=3]>
+         acao: RES <- RES * topo(PILHA)   [RES=1]
+   |-  <    r7, [N=3, RES=1, TOPO=0, TAM_PILHA=2]>
+         acao: desempilha()   [TAM_PILHA=2]
+   |-  <    r8, [N=3, RES=1, TOPO=0, TAM_PILHA=2]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=3, RES=2, TOPO=0, TAM_PILHA=2]>
+         acao: RES <- RES * topo(PILHA)   [RES=2]
+   |-  <    r7, [N=3, RES=2, TOPO=0, TAM_PILHA=1]>
+         acao: desempilha()   [TAM_PILHA=1]
+   |-  <    r8, [N=3, RES=2, TOPO=0, TAM_PILHA=1]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=3, RES=6, TOPO=0, TAM_PILHA=1]>
+         acao: RES <- RES * topo(PILHA)   [RES=6]
+   |-  <    r7, [N=3, RES=6, TOPO=0, TAM_PILHA=0]>
+         acao: desempilha()   [TAM_PILHA=0]
+   |-  <   r10, [N=3, RES=6, TOPO=0, TAM_PILHA=0]>
+         acao: teste: PILHA vazia  ->  V
+   |-  <   r10, [N=3, RES=6, TOPO=0, TAM_PILHA=0]>
+         acao: pare
+------------------------------------------------------------------------------
+ Resultado final: 6
+ Total de passos : 23
+==============================================================================
+
+==============================================================================
+ TRACO DO PROGRAMA: P4 - Recursivo normalizado (via pilha)
+ Entrada: {'N': 4}
+==============================================================================
+
+ Fita de configuracoes  <rotulo, estado>  |-  proxima
+------------------------------------------------------------------------------
+        <    r1, [N=4]>
+   |-  <    r2, [N=4, RES=1]>
+         acao: RES <- 1   [RES=1]
+   |-  <    r3, [N=4, RES=1, TOPO=4]>
+         acao: TOPO <- N   [TOPO=4]
+   |-  <    r4, [N=4, RES=1, TOPO=4]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=4, RES=1, TOPO=4, TAM_PILHA=1]>
+         acao: empilha(TOPO)   [TAM_PILHA=1]
+   |-  <    r3, [N=4, RES=1, TOPO=3, TAM_PILHA=1]>
+         acao: TOPO <- TOPO - 1   [TOPO=3]
+   |-  <    r4, [N=4, RES=1, TOPO=3, TAM_PILHA=1]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=4, RES=1, TOPO=3, TAM_PILHA=2]>
+         acao: empilha(TOPO)   [TAM_PILHA=2]
+   |-  <    r3, [N=4, RES=1, TOPO=2, TAM_PILHA=2]>
+         acao: TOPO <- TOPO - 1   [TOPO=2]
+   |-  <    r4, [N=4, RES=1, TOPO=2, TAM_PILHA=2]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=4, RES=1, TOPO=2, TAM_PILHA=3]>
+         acao: empilha(TOPO)   [TAM_PILHA=3]
+   |-  <    r3, [N=4, RES=1, TOPO=1, TAM_PILHA=3]>
+         acao: TOPO <- TOPO - 1   [TOPO=1]
+   |-  <    r4, [N=4, RES=1, TOPO=1, TAM_PILHA=3]>
+         acao: teste: TOPO < 1  ->  F
+   |-  <    r5, [N=4, RES=1, TOPO=1, TAM_PILHA=4]>
+         acao: empilha(TOPO)   [TAM_PILHA=4]
+   |-  <    r3, [N=4, RES=1, TOPO=0, TAM_PILHA=4]>
+         acao: TOPO <- TOPO - 1   [TOPO=0]
+   |-  <    r7, [N=4, RES=1, TOPO=0, TAM_PILHA=4]>
+         acao: teste: TOPO < 1  ->  V
+   |-  <    r8, [N=4, RES=1, TOPO=0, TAM_PILHA=4]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=4, RES=1, TOPO=0, TAM_PILHA=4]>
+         acao: RES <- RES * topo(PILHA)   [RES=1]
+   |-  <    r7, [N=4, RES=1, TOPO=0, TAM_PILHA=3]>
+         acao: desempilha()   [TAM_PILHA=3]
+   |-  <    r8, [N=4, RES=1, TOPO=0, TAM_PILHA=3]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=4, RES=2, TOPO=0, TAM_PILHA=3]>
+         acao: RES <- RES * topo(PILHA)   [RES=2]
+   |-  <    r7, [N=4, RES=2, TOPO=0, TAM_PILHA=2]>
+         acao: desempilha()   [TAM_PILHA=2]
+   |-  <    r8, [N=4, RES=2, TOPO=0, TAM_PILHA=2]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=4, RES=6, TOPO=0, TAM_PILHA=2]>
+         acao: RES <- RES * topo(PILHA)   [RES=6]
+   |-  <    r7, [N=4, RES=6, TOPO=0, TAM_PILHA=1]>
+         acao: desempilha()   [TAM_PILHA=1]
+   |-  <    r8, [N=4, RES=6, TOPO=0, TAM_PILHA=1]>
+         acao: teste: PILHA vazia  ->  F
+   |-  <    r9, [N=4, RES=24, TOPO=0, TAM_PILHA=1]>
+         acao: RES <- RES * topo(PILHA)   [RES=24]
+   |-  <    r7, [N=4, RES=24, TOPO=0, TAM_PILHA=0]>
+         acao: desempilha()   [TAM_PILHA=0]
+   |-  <   r10, [N=4, RES=24, TOPO=0, TAM_PILHA=0]>
+         acao: teste: PILHA vazia  ->  V
+   |-  <   r10, [N=4, RES=24, TOPO=0, TAM_PILHA=0]>
+         acao: pare
+------------------------------------------------------------------------------
+ Resultado final: 24
+ Total de passos : 29
+==============================================================================

@@ -1,0 +1,148 @@
+##############################################################################
+#  ANALISE DE EQUIVALENCIA FORTE  -  P1 vs P2
+##############################################################################
+
+HIPOTESE: P1 (monolitico com goto) e P2 (iterativo com while) sao
+          FORTEMENTE EQUIVALENTES, porque a normalizacao monolitica
+          de P2 produz exatamente a mesma sequencia de instrucoes
+          rotuladas de P1 (a menos de renomeacao de rotulos).
+
+METODO:   Para cada entrada N, executa-se a Maquina de Tracos sobre
+          ambos os programas e compara-se configuracao a configuracao.
+
+------------------------------------------------------------------------------
+ Entrada N = 0
+   passos P1 = 4   passos P2 = 4
+   resultado P1 = 1   resultado P2 = 1
+   equivalentes ? True
+   justificativa: Tracos identicos em todos os passos e mesmo resultado final.
+------------------------------------------------------------------------------
+ Entrada N = 1
+   passos P1 = 7   passos P2 = 7
+   resultado P1 = 1   resultado P2 = 1
+   equivalentes ? True
+   justificativa: Tracos identicos em todos os passos e mesmo resultado final.
+------------------------------------------------------------------------------
+ Entrada N = 3
+   passos P1 = 13   passos P2 = 13
+   resultado P1 = 6   resultado P2 = 6
+   equivalentes ? True
+   justificativa: Tracos identicos em todos os passos e mesmo resultado final.
+------------------------------------------------------------------------------
+ Entrada N = 5
+   passos P1 = 19   passos P2 = 19
+   resultado P1 = 120   resultado P2 = 120
+   equivalentes ? True
+   justificativa: Tracos identicos em todos os passos e mesmo resultado final.
+------------------------------------------------------------------------------
+ Entrada N = 7
+   passos P1 = 25   passos P2 = 25
+   resultado P1 = 5040   resultado P2 = 5040
+   equivalentes ? True
+   justificativa: Tracos identicos em todos os passos e mesmo resultado final.
+
+==============================================================================
+ CONCLUSAO: P1 e P2 sao FORTEMENTE EQUIVALENTES.
+ Os tracos coincidem passo a passo (apos renomeacao
+ de rotulos) e produzem o mesmo resultado final.
+==============================================================================
+
+## DEMONSTRACAO VISUAL - TRACOS LADO A LADO (N = 4)
+
+>>> P1 (monolitico)
+==============================================================================
+ TRACO DO PROGRAMA: P1 - Monolitico crescente (goto)
+ Entrada: {'N': 4}
+==============================================================================
+
+ Fita de configuracoes  <rotulo, estado>  |-  proxima
+------------------------------------------------------------------------------
+        <     1, [N=4]>
+   |-  <     2, [N=4, RES=1]>
+         acao: RES <- 1   [RES=1]
+   |-  <     3, [N=4, RES=1, I=1]>
+         acao: I <- 1   [I=1]
+   |-  <     4, [N=4, RES=1, I=1]>
+         acao: teste: I > N  ->  F
+   |-  <     5, [N=4, RES=1, I=1]>
+         acao: RES <- RES * I   [RES=1]
+   |-  <     3, [N=4, RES=1, I=2]>
+         acao: I <- I + 1   [I=2]
+   |-  <     4, [N=4, RES=1, I=2]>
+         acao: teste: I > N  ->  F
+   |-  <     5, [N=4, RES=2, I=2]>
+         acao: RES <- RES * I   [RES=2]
+   |-  <     3, [N=4, RES=2, I=3]>
+         acao: I <- I + 1   [I=3]
+   |-  <     4, [N=4, RES=2, I=3]>
+         acao: teste: I > N  ->  F
+   |-  <     5, [N=4, RES=6, I=3]>
+         acao: RES <- RES * I   [RES=6]
+   |-  <     3, [N=4, RES=6, I=4]>
+         acao: I <- I + 1   [I=4]
+   |-  <     4, [N=4, RES=6, I=4]>
+         acao: teste: I > N  ->  F
+   |-  <     5, [N=4, RES=24, I=4]>
+         acao: RES <- RES * I   [RES=24]
+   |-  <     3, [N=4, RES=24, I=5]>
+         acao: I <- I + 1   [I=5]
+   |-  <     7, [N=4, RES=24, I=5]>
+         acao: teste: I > N  ->  V
+   |-  <     7, [N=4, RES=24, I=5]>
+         acao: pare
+------------------------------------------------------------------------------
+ Resultado final: 24
+ Total de passos : 16
+==============================================================================
+
+>>> P2 (iterativo)
+==============================================================================
+ TRACO DO PROGRAMA: P2 - Iterativo crescente (while, i:1->n)
+ Entrada: {'N': 4}
+==============================================================================
+
+ Fita de configuracoes  <rotulo, estado>  |-  proxima
+------------------------------------------------------------------------------
+        <    i1, [N=4]>
+   |-  <    i2, [N=4, RES=1]>
+         acao: RES <- 1   [RES=1]
+   |-  <    i3, [N=4, RES=1, I=1]>
+         acao: I <- 1   [I=1]
+   |-  <    i4, [N=4, RES=1, I=1]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=1, I=1]>
+         acao: RES <- RES * I   [RES=1]
+   |-  <    i3, [N=4, RES=1, I=2]>
+         acao: I <- I + 1   [I=2]
+   |-  <    i4, [N=4, RES=1, I=2]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=2, I=2]>
+         acao: RES <- RES * I   [RES=2]
+   |-  <    i3, [N=4, RES=2, I=3]>
+         acao: I <- I + 1   [I=3]
+   |-  <    i4, [N=4, RES=2, I=3]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=6, I=3]>
+         acao: RES <- RES * I   [RES=6]
+   |-  <    i3, [N=4, RES=6, I=4]>
+         acao: I <- I + 1   [I=4]
+   |-  <    i4, [N=4, RES=6, I=4]>
+         acao: teste: I > N  ->  F
+   |-  <    i5, [N=4, RES=24, I=4]>
+         acao: RES <- RES * I   [RES=24]
+   |-  <    i3, [N=4, RES=24, I=5]>
+         acao: I <- I + 1   [I=5]
+   |-  <    i7, [N=4, RES=24, I=5]>
+         acao: teste: I > N  ->  V
+   |-  <    i7, [N=4, RES=24, I=5]>
+         acao: pare
+------------------------------------------------------------------------------
+ Resultado final: 24
+ Total de passos : 16
+==============================================================================
+
+ Observe: as duas fitas tem o mesmo numero de
+ configuracoes, as mesmas acoes na mesma ordem e o
+ mesmo resultado final. A unica diferenca sao os NOMES
+ dos rotulos (1,2,3,... em P1  vs  i1,i2,i3,... em P2),
+ o que e' irrelevante para equivalencia forte.

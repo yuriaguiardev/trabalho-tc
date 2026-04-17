@@ -1,0 +1,21 @@
+{
+  "name": "Trabalho de Teoria da Computabilidade",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    }
+  },
+
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y gcc nasm && gcc --version && nasm --version && python3 --version",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python"
+      ]
+    }
+  }
+}
