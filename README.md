@@ -5,7 +5,6 @@
 > **Disciplina:** Teoria da Computabilidade
 > **Professor:** Daniel Leal Souza
 > **Turma:** CC5NA
-> **Data de entrega:** _(15/04/2026 ou 17/04/2026 — conforme turma)_
 
 ---
 
