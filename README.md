@@ -11,12 +11,7 @@
 
 ## 1. Integrantes da equipe
 
-| Nome | Matrícula |
-|------|-----------|
-| _(preencher)_ | _(preencher)_ |
-| _(preencher)_ | _(preencher)_ |
-| _(preencher)_ | _(preencher)_ |
-| _(preencher)_ | _(preencher)_ |
+Nomes: Yuri Aguiar, Pedro Paulo e Joao Rath
 
 ---
 
